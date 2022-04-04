@@ -9,7 +9,14 @@ on:
         required: true 
 
 jobs:
+  helloword:
+    runs-on: ubuntu-latest
+    steps:
+      - name: step do job1
+        run: echo Bem vindo ao Trabalho Pratico de Automação!
+        
   build:
+    if: "contains(github.event.head_commit.message, '[pipeline]')"  
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -25,15 +32,8 @@ jobs:
         with:
           name: deploy
           path: frontend/out
-          
-  helloword:
-    runs-on: ubuntu-latest
-    steps:
-      - name: step do job1
-        run: echo Bem vindo ao Trabalho Pratico de Automação!
 
   deploy:
-    if: "contains(github.event.head_commit.message, '[pipeline]')"
     runs-on: ubuntu-latest
     needs: build
     env:
