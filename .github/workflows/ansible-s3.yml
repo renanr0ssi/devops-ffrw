@@ -1,9 +1,0 @@
----
-- name: create S3 bucket
-  hosts: localhost
-
-  tasks:
-    - name: config bucket
-      amazon.aws.s3_bucket:
-        name: devops-ffrw
-        state: present
