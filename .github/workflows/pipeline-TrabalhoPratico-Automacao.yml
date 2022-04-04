@@ -8,22 +8,32 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: create an artifact for reuse
-        run: echo “Full featured artifact” > build-result.txt
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'npm'
+      - run: npm --prefix frontend install
+      - run: npm --prefix frontend run build
+      - run: cd frontend && npx next export
       - uses: actions/upload-artifact@v2
         with:
-          name: build-result
-          path: build-result.txt
-
+          name: deploy
+          path: frontend/out
 
   deploy:
     if: "contains(github.event.head_commit.message, '[pipeline]')"
     runs-on: ubuntu-latest
     needs: build
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+      AWS_EC2_METADATA_DISABLED: true
     steps:
       - uses: actions/download-artifact@v2
         with:
-          name: build-result
-          path: build-result.txt
-      - name: use of artifact created
-        run: ls build-result.txt
+          name: deploy
+          path: frontend/out
+      - run: aws s3 cp frontend/out s3://devops-ffrw --recursive --acl public-read
+
