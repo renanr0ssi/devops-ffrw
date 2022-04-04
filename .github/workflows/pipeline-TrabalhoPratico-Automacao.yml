@@ -11,9 +11,8 @@ on:
         required: true 
 
 jobs:
-  hello_world:
+  custom_action:
     runs-on: ubuntu-latest
-    name: Example of custom action
     steps:
       - name: Checkout Actions
         uses: actions/checkout@v2
