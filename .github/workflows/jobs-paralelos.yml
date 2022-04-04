@@ -8,10 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: step do job1
-        run: echo Bem vindo ao Trabalho Pratico de Automação! job1.
+        run: echo Bem vindo ao Trabalho Pratico de Automação!  job1.
 
   job2:
     runs-on: ubuntu-latest
     steps:
       - name: step do job2
-        run: echo Bem vindo ao Trabalho Pratico de Automação! Job2.
+        run: echo Bem vindo ao Trabalho Pratico de Automação!  Job2.
