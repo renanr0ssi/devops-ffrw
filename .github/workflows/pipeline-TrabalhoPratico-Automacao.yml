@@ -11,7 +11,7 @@ on:
         required: true 
 
 jobs:
-  hello_world_job:
+  hello_world:
     runs-on: ubuntu-latest
     name: Example of custom action
     steps:
